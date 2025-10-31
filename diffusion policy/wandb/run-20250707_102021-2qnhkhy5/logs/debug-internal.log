@@ -1,0 +1,176 @@
+2025-07-07 10:20:21,469 INFO    StreamThr :1466701 [internal.py:wandb_internal():86] W&B internal server running at pid: 1466701, started at: 2025-07-07 10:20:21.468521
+2025-07-07 10:20:21,472 DEBUG   HandlerThread:1466701 [handler.py:handle_request():146] handle_request: status
+2025-07-07 10:20:21,486 INFO    WriterThread:1466701 [datastore.py:open_for_write():87] open: /home/zhangyifan/Imitation/debug/act-plus-plus/wandb/run-20250707_102021-2qnhkhy5/run-2qnhkhy5.wandb
+2025-07-07 10:20:21,487 DEBUG   SenderThread:1466701 [sender.py:send():378] send: header
+2025-07-07 10:20:21,488 DEBUG   SenderThread:1466701 [sender.py:send():378] send: run
+2025-07-07 10:20:25,742 DEBUG   HandlerThread:1466701 [handler.py:handle_request():146] handle_request: shutdown
+2025-07-07 10:20:25,742 INFO    HandlerThread:1466701 [handler.py:finish():869] shutting down handler
+2025-07-07 10:20:26,489 INFO    WriterThread:1466701 [datastore.py:close():296] close: /home/zhangyifan/Imitation/debug/act-plus-plus/wandb/run-20250707_102021-2qnhkhy5/run-2qnhkhy5.wandb
+2025-07-07 10:21:24,743 INFO    SenderThread:1466701 [retry.py:__call__():172] Retry attempt failed:
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connection.py", line 203, in _new_conn
+    sock = connection.create_connection(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+socket.timeout: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connectionpool.py", line 776, in urlopen
+    self._prepare_proxy(conn)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connectionpool.py", line 1045, in _prepare_proxy
+    conn.connect()
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connection.py", line 611, in connect
+    self.sock = sock = self._new_conn()
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connection.py", line 212, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x7f518e238910>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')
+
+The above exception was the direct cause of the following exception:
+
+urllib3.exceptions.ProxyError: ('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518e238910>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connectionpool.py", line 844, in urlopen
+    retries = retries.increment(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/util/retry.py", line 515, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by ProxyError('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518e238910>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 369, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/lib/gql_request.py", line 58, in execute
+    request = self.session.post(self.url, **post_args)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/adapters.py", line 513, in send
+    raise ProxyError(e, request=request)
+requests.exceptions.ProxyError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by ProxyError('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518e238910>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')))
+2025-07-14 10:21:15,652 ERROR   SenderThread:1466701 [sender.py:send_run():950] HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by ProxyError('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518c13a8b0>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')))
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connection.py", line 203, in _new_conn
+    sock = connection.create_connection(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+socket.timeout: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connectionpool.py", line 776, in urlopen
+    self._prepare_proxy(conn)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connectionpool.py", line 1045, in _prepare_proxy
+    conn.connect()
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connection.py", line 611, in connect
+    self.sock = sock = self._new_conn()
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connection.py", line 212, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x7f518c13a8b0>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')
+
+The above exception was the direct cause of the following exception:
+
+urllib3.exceptions.ProxyError: ('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518c13a8b0>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/connectionpool.py", line 844, in urlopen
+    retries = retries.increment(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/urllib3/util/retry.py", line 515, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by ProxyError('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518c13a8b0>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/apis/normalize.py", line 41, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 585, in server_settings_introspection
+    res = self.gql(query)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 341, in gql
+    ret = self._retry_gql(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 369, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/lib/gql_request.py", line 58, in execute
+    request = self.session.post(self.url, **post_args)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/adapters.py", line 513, in send
+    raise ProxyError(e, request=request)
+requests.exceptions.ProxyError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by ProxyError('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518c13a8b0>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/sender.py", line 948, in send_run
+    self._init_run(run, config_value_dict)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/sender.py", line 990, in _init_run
+    server_run, inserted, server_messages = self._api.upsert_run(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/apis/normalize.py", line 73, in wrapper
+    raise err
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/apis/normalize.py", line 41, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 2159, in upsert_run
+    self.server_settings_introspection()
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/apis/normalize.py", line 87, in wrapper
+    raise CommError(message, err).with_traceback(sys.exc_info()[2])
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/apis/normalize.py", line 41, in wrapper
+    return func(*args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 585, in server_settings_introspection
+    res = self.gql(query)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 341, in gql
+    ret = self._retry_gql(
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 369, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/wandb/sdk/lib/gql_request.py", line 58, in execute
+    request = self.session.post(self.url, **post_args)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/zhangyifan/tempconda/miniconda3/envs/aloha/lib/python3.9/site-packages/requests/adapters.py", line 513, in send
+    raise ProxyError(e, request=request)
+wandb.errors.CommError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by ProxyError('Unable to connect to proxy', ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f518c13a8b0>, 'Connection to 10.158.51.8 timed out. (connect timeout=20)')))
+2025-07-14 10:21:15,674 INFO    SenderThread:1466701 [sender.py:finish():1521] shutting down sender

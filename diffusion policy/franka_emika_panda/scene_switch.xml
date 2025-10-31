@@ -1,0 +1,71 @@
+<mujoco model="rotary_knob_scene_movable">
+  <!-- 编译与模拟设置 -->
+  <compiler angle="degree" coordinate="local"/>
+  <option timestep="0.01" gravity="0 0 -9.81"/>
+
+  <!-- 引入 Panda 模型 -->
+  <include file="panda.xml"/>
+
+  <!-- 可视化与统计 -->
+  <statistic center="0.3 0 0.4" extent="1"/>
+  <visual>
+    <headlight diffuse="0.4 0.4 0.4" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="120" elevation="-20"/>
+  </visual>
+
+  <!-- 材质与纹理 -->
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge"
+             rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8"
+             width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true"
+              texrepeat="5 5" reflectance="0.0"/>
+  </asset>
+
+
+
+  <worldbody>
+    <!-- 摄像头 -->
+    <camera name="diagonal_view" pos="1.1 0 0.95" euler="0 0.585398 1.57"/>
+    <camera name="top" pos="0 0 3" xyaxes="1 0 0 0 1 0"/>
+    <camera name="left_side" pos="0.3 -1.5 0.4" xyaxes="1 0 0 0 0 1"/>
+    <camera name="front" pos="2 0 0.2" xyaxes="0 1 0 0 0 1"/>
+
+
+    <!-- 地面 -->
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <!-- 旋钮：整体自由 + 局部旋转 -->
+    <body name="knob_holder" pos="0.5 0.0 0.06">  <!-- 原来 0.05 * 1.2 -->
+      <joint type="free"/>
+
+      <!-- 底座 -->
+      <geom type="cylinder" size="0.048 0.012" rgba="0.6 0.6 0.6 1" pos="0 0 0.012" mass="10"/>
+
+      <!-- 旋钮条 -->
+      <body name="knob" pos="0 0 0.024"> <!-- 原来 0.02 * 1.2 -->
+        <joint name="knob_hinge" type="hinge"
+               axis="0 0 1"
+               pos="0 0 0"
+               limited="true" range="-1.57 1.57"
+               damping="0.01" armature="0.001"/>
+
+        <!-- 放大的条形杆 -->
+        <geom type="box"
+              size="0.036 0.006 0.012"
+              pos="0 0 0.012"
+              rgba="0.9 0.2 0.2 1"
+              mass="0.0264"/>           <!-- 原质量 0.05 * (1.2^3) -->
+
+        <!-- 指示点（位置跟着缩放） -->
+        <site name="knob_indicator" pos="0.036 0 0.012" size="0.0036" rgba="0 0 0 1"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <!--actuator>
+    <position name="knob" joint="knob_hinge" forcerange="-120 120"/>
+  </actuator-->
+</mujoco>

@@ -1,0 +1,4 @@
+Model epoch: 10000, Test: 100
+Result: False
+Success rate up to this test: 0.0000
+
