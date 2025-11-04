@@ -85,7 +85,7 @@ taskset -c 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 \
   robot_client.executable_cfg.control_port=50051
 ```
 
-### Terminal 4 — Gripper
+### Terminal 2 — Gripper
 
 ```bash
 # terminal 4
@@ -99,7 +99,7 @@ taskset -c 16,17,18,19,20,21,22,23 \
   gripper.executable_cfg.control_ip=127.0.0.1
 ```
 
-### Terminal 2 — Torque Control
+### Terminal 3 — Torque Control
 
 ```bash
 # terminal 2
@@ -111,7 +111,7 @@ taskset -c 24,25,26,27 \
 ```
 Ctrl + C to stop and save the data.
 
-### Terminal 3 — Leader Teleop (No ROS 2)
+### Terminal 4 — Leader Teleop (No ROS 2)
 
 ```bash
 # terminal 3
