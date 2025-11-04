@@ -107,7 +107,7 @@ conda activate polymetis-local
 cd FACTR_Teleop/src/factr_teleop/factr_teleop
 taskset -c 24,25,26,27 \
   chrt -f 98 \
-  python3 torque_control.py
+  python3 torque_control.py --dataset_folder your_dataset_path
 ```
 
 ### Terminal 3 — Leader Teleop (No ROS 2)
