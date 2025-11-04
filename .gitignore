@@ -1,3 +1,4 @@
 *.log
 outputs/
 FACTR_Teleop/src/factr_teleop/outputs/
+dataset
