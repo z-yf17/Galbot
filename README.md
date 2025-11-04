@@ -127,4 +127,9 @@ taskset -c 28,29,30,31 \
 ## 📚 Installation of Imitation Learning Environment
 
 ```
+cd Behavior/ Cloning
+pip install -r requirements.txt
+cd IL/ Policy/robomimic
+pip install -e .
+cd ..
 ```
