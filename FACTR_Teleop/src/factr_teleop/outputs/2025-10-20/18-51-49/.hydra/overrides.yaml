@@ -1,0 +1,3 @@
+- gripper=franka_hand
+- gripper.executable_cfg.robot_ip=192.168.1.10
+- gripper.executable_cfg.control_port=50052
