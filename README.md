@@ -66,12 +66,15 @@ make -j
 > Open four separate terminals. Each terminal activates the same Conda env and runs one process.
 > Commands below are **copy-ready** and keep your original settings unchanged.
 
+```bash
+cd galbot
+```
+
 ### Terminal 1 — Robot Client
 
 ```bash
 # terminal 1
 conda activate polymetis-local
-cd zyf/fairo/polymetis/polymetis/python/scripts
 taskset -c 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 \
   chrt -f 98 \
   launch_robot.py \
@@ -87,7 +90,6 @@ taskset -c 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 \
 ```bash
 # terminal 4
 conda activate polymetis-local
-cd zyf/fairo/polymetis/polymetis/python/scripts
 taskset -c 16,17,18,19,20,21,22,23 \
   chrt -f 97 \
   launch_gripper.py \
@@ -102,18 +104,19 @@ taskset -c 16,17,18,19,20,21,22,23 \
 ```bash
 # terminal 2
 conda activate polymetis-local
-cd zyf/FACTR_Teleop/src/factr_teleop/factr_teleop
+cd FACTR_Teleop/src/factr_teleop/factr_teleop
 taskset -c 24,25,26,27 \
   chrt -f 98 \
-  python3 torque_control.py
+  python3 torque_control.py --dataset_folder your_dataset_path
 ```
+Ctrl + C to stop and save the data.
 
 ### Terminal 3 — Leader Teleop (No ROS 2)
 
 ```bash
 # terminal 3
 conda activate polymetis-local
-cd zyf/FACTR_Teleop
+cd FACTR_Teleop
 taskset -c 28,29,30,31 \
   chrt -f 98 \
   python3 scripts/leader_teleop_no_ros_2.py
