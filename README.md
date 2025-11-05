@@ -60,7 +60,7 @@ make -j
 
 ---
 
-## 🖥️ Run Polymetis (requires **4 terminals**)
+## 🖥️ Run FACTR (requires **4 terminals**)
 
 > **Tip**
 > Open four separate terminals. Each terminal activates the same Conda env and runs one process.
@@ -157,3 +157,11 @@ conda activate polymetis-local
 conda install pyzmq --freeze-installed
 conda install -c conda-forge opencv --freeze-installed
 ```
+
+### Train your IL Policy:
+
+```bash
+cd Behavior\ Cloning
+python IL\ policy/imitate_episodes.py
+```
+Remember to chage your config in IL\ Policy/constants.py
