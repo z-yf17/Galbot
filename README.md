@@ -16,7 +16,7 @@ cd fairo/polymetis
 
 ---
 
-## 🧪 Create environment
+## 🧪 Create Polymetis environment
 
 ```bash
 conda env create -f ./polymetis/environment.yml
@@ -124,12 +124,36 @@ taskset -c 28,29,30,31 \
 
 ---
 
-## 📚 Installation of Imitation Learning Environment
+## 📚 Create Imitation Learning Environment
 
-```
-cd Behavior/ Cloning
+Due to the fact that the RT real-time kernel does not support CUDA, you need to set up communication via ZMQ locally. The RT environment will handle the control of the Franka robot arm, while GPU computation will be done in the non-RT environment. The setup process is as follows:
+
+### Steps:
+
+1. **Create the GPU environment (non-RT environment):**  
+   Set up a dedicated environment for GPU computation, ensuring CUDA is properly installed and usable. This environment will handle deep learning or other GPU-intensive tasks.
+
+2. **Install ZMQ in both environments:**  
+   You need to install ZMQ both in the newly created GPU environment and in the Polymetis environment. This allows communication between the RT-controlled robot arm and the GPU computation environment.
+
+### Setup Instructions:
+
+#### 1. Create the GPU environment:
+
+```bash
+conda create -n env_IL python=3.8
+conda activate env_IL
+cd Behavior/Cloning
 pip install -r requirements.txt
-cd IL/ Policy/robomimic
+cd IL/Policy/robomimic
 pip install -e .
 cd ..
+```
+
+#### 2. Install ZMQ and Opencv in both environment:
+
+```bash
+conda activate polymetis-local
+conda install pyzmq --freeze-installed
+conda install -c conda-forge opencv --freeze-installed
 ```
