@@ -88,7 +88,7 @@ taskset -c 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 \
 ### Terminal 2 — Gripper
 
 ```bash
-# terminal 4
+# terminal 2
 conda activate polymetis-local
 taskset -c 16,17,18,19,20,21,22,23 \
   chrt -f 97 \
@@ -102,7 +102,7 @@ taskset -c 16,17,18,19,20,21,22,23 \
 ### Terminal 3 — Torque Control
 
 ```bash
-# terminal 2
+# terminal 3
 conda activate polymetis-local
 cd FACTR_Teleop/src/factr_teleop/factr_teleop
 taskset -c 24,25,26,27 \
@@ -114,7 +114,7 @@ Ctrl + C to stop and save the data.
 ### Terminal 4 — Leader Teleop (No ROS 2)
 
 ```bash
-# terminal 3
+# terminal 4
 conda activate polymetis-local
 cd FACTR_Teleop
 taskset -c 28,29,30,31 \
