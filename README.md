@@ -60,7 +60,7 @@ make -j
 
 ---
 
-## 🖥️ Run (requires **4 terminals**)
+## 🖥️ Run Polymetis (requires **4 terminals**)
 
 > **Tip**
 > Open four separate terminals. Each terminal activates the same Conda env and runs one process.
