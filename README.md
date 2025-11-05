@@ -158,10 +158,44 @@ conda install pyzmq --freeze-installed
 conda install -c conda-forge opencv --freeze-installed
 ```
 
-### Train your IL Policy:
+## 📦 Train your IL Policy:
 
 ```bash
 cd Behavior\ Cloning
 python IL\ policy/imitate_episodes.py
 ```
 Remember to chage your config in IL\ Policy/constants.py
+
+
+###  Inference on real Franka
+
+Start robot client and gripper client.
+
+### Terminal 1 — Arm
+
+```bash
+# terminal 1
+conda activate polymetis-local
+taskset -c 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 \
+  chrt -f 98 \
+  launch_robot.py \
+  robot_client=franka_hardware \
+  robot_client.executable_cfg.robot_ip=192.168.1.10 \
+  robot_client.executable_cfg.exec=franka_panda_client \
+  robot_client.executable_cfg.use_real_time=true \
+  robot_client.executable_cfg.control_port=50051
+```
+
+### Terminal 2 — Gripper
+
+```bash
+# terminal 2
+conda activate polymetis-local
+taskset -c 16,17,18,19,20,21,22,23 \
+  chrt -f 97 \
+  launch_gripper.py \
+  gripper=franka_hand \
+  gripper.executable_cfg.robot_ip=192.168.1.10 \
+  gripper.executable_cfg.control_port=50052 \
+  gripper.executable_cfg.control_ip=127.0.0.1
+```
