@@ -1,9 +1,0 @@
-[2025-10-18 20:16:22,548][__main__][INFO] - Adding /home/galbot/zyf/fairo/polymetis/polymetis/build to $PATH
-[2025-10-18 20:16:22,565][polymetis.robot_client.executable_robot_client][INFO] - === Config: ===
-exec: franka_hand_client
-robot_ip: 192.168.1.10
-control_ip: 0.0.0.0
-control_port: 50052
-robot_client_metadata_path: /tmp/tmpp1rezqcu
-
-[2025-10-18 20:16:22,565][polymetis.robot_client.executable_robot_client][INFO] - === Executing client at /home/galbot/zyf/fairo/polymetis/polymetis/build/franka_hand_client ===
