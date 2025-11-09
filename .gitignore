@@ -7,3 +7,19 @@ Behavior Cloning/Dataset
 Behavior Cloning/conda_env.yaml
 build/
 FACTR_Teleop/
+# Python junk
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+build/
+dist/
+
+# venv / env
+.venv/
+venv/
+.env
+
+# 项目自定义：永不提交这个目录
+FACTR_Teleop/
