@@ -23,3 +23,7 @@ venv/
 
 # 项目自定义：永不提交这个目录
 FACTR_Teleop/
+FACTR_Teleop/
+__pycache__/
+*.py[cod]
+*.egg-info/
