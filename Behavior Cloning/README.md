@@ -1,85 +1,155 @@
-# Imitation Learning algorithms and Co-training for Mobile ALOHA
+````markdown
+# Imitation Learning Environment (RT Control + GPU Compute via ZMQ)
+
+Because the real-time (RT) kernel does not support CUDA, this repository uses local **ZMQ** communication to split the system into two parts:
+- **RT environment (Polymetis):** real-time control of the Franka arm/gripper.
+- **GPU environment (non-RT):** deep learning training and inference (e.g., ACT / Diffusion).
+
+ZMQ passes observations and actions between the two environments.
+
+---
+
+## Step Overview
+1. Create the GPU environment (non-RT)
+2. Install ZMQ (and OpenCV) in both environments
+3. Train IL policies
+4. Run inference on a real Franka
+5. Start the GPU-side inference server (model selection & parameters)
+6. Start the RT-side inference script
+
+---
+
+## 1. Create the GPU environment (non-RT)
+
+```bash
+conda create -n env_IL python=3.8
+conda activate env_IL
+
+cd "Behavior Cloning"
+pip install -r requirements.txt
+
+cd robomimic
+pip install -e .
+cd ..
+````
+
+---
+
+## 2. Install ZMQ & OpenCV in both environments
+
+Install in the **Polymetis (RT) environment**:
+
+```bash
+conda activate polymetis-local
+conda install pyzmq --freeze-installed
+conda install -c conda-forge opencv --freeze-installed
+```
 
 
-#### Project Website: https://mobile-aloha.github.io/
+---
 
-This repo contains the implementation of ACT, Diffusion Policy and VINN, together with 2 simulated environments:
-Transfer Cube and Bimanual Insertion. You can train and evaluate them in sim or real.
-For real, you would also need to install [Mobile ALOHA](https://github.com/MarkFzp/mobile-aloha). This repo is forked from the [ACT repo](https://github.com/tonyzhaozh/act).
+## 3. Train IL Policies
 
-### Updates:
-You can find all scripted/human demo for simulated environments [here](https://drive.google.com/drive/folders/1gPR03v05S1xiInoVJn7G7VJ9pDCnxq9O?usp=share_link).
+Run in the **GPU environment** (`env_IL`):
 
+```bash
+# ACT
+python imitate_episodes.py \
+  --task_name sim_cup \
+  --ckpt_dir ckpt/your_act_path \
+  --policy ACT \
+  --chunk_size 32 \
+  --dim_feedforward 3200 \
+  --hidden_dim 512 \
+  --batch_size 8 \
+  --num_steps 200000 \
+  --lr 2e-5 \
+  --seed 0 \
+  --kl_weight 10
 
-### Repo Structure
-- ``imitate_episodes.py`` Train and Evaluate ACT
-- ``policy.py`` An adaptor for ACT policy
-- ``detr`` Model definitions of ACT, modified from DETR
-- ``sim_env.py`` Mujoco + DM_Control environments with joint space control
-- ``ee_sim_env.py`` Mujoco + DM_Control environments with EE space control
-- ``scripted_policy.py`` Scripted policies for sim environments
-- ``constants.py`` Constants shared across files
-- ``utils.py`` Utils such as data loading and helper functions
-- ``visualize_episodes.py`` Save videos from a .hdf5 dataset
+# Diffusion
+python imitate_episodes.py \
+  --task_name sim_cup \
+  --ckpt_dir ckpt/your_diffusion_path \
+  --policy Diffusion \
+  --chunk_size 32 \
+  --hidden_dim 512 \
+  --batch_size 8 \
+  --num_steps 200000 \
+  --lr 2e-5 \
+  --seed 0
+```
 
+---
 
-### Installation
+## 4. Inference on Real Franka
 
-    conda create -n aloha python=3.8.10
-    conda activate aloha
-    pip install torchvision
-    pip install torch
-    pip install pyquaternion
-    pip install pyyaml
-    pip install rospkg
-    pip install pexpect
-    pip install mujoco==2.3.7
-    pip install dm_control==1.0.14
-    pip install opencv-python
-    pip install matplotlib
-    pip install einops
-    pip install packaging
-    pip install h5py
-    pip install ipython
-    cd act/detr && pip install -e .
+Start the robot client and the gripper client in the **RT environment**.
 
-- also need to install https://github.com/ARISE-Initiative/robomimic/tree/r2d2 (note the r2d2 branch) for Diffusion Policy by `pip install -e .`
+### Terminal 1 — Arm
 
-### Example Usages
+```bash
+# terminal 1
+conda activate polymetis-local
+taskset -c 0-14 \
+  chrt -f 98 \
+  launch_robot.py \
+  robot_client=franka_hardware \
+  robot_client.executable_cfg.robot_ip=192.168.1.10 \
+  robot_client.executable_cfg.exec=franka_panda_client \
+  robot_client.executable_cfg.use_real_time=true \
+  robot_client.executable_cfg.control_port=50051
+```
 
-To set up a new terminal, run:
+### Terminal 2 — Gripper
 
-    conda activate aloha
-    cd <path to act repo>
+```bash
+# terminal 2
+conda activate polymetis-local
+taskset -c 16-23 \
+  chrt -f 97 \
+  launch_gripper.py \
+  gripper=franka_hand \
+  gripper.executable_cfg.robot_ip=192.168.1.10 \
+  gripper.executable_cfg.control_port=50052 \
+  gripper.executable_cfg.control_ip=127.0.0.1
+```
 
-### Simulated experiments (LEGACY table-top ALOHA environments)
+---
 
-We use ``sim_transfer_cube_scripted`` task in the examples below. Another option is ``sim_insertion_scripted``.
-To generated 50 episodes of scripted data, run:
+## 5. Start the GPU Server (model selection & parameters)
 
-    python3 record_sim_episodes.py --task_name sim_transfer_cube_scripted --dataset_dir <data save dir> --num_episodes 50
+Run in the **GPU environment** (`env_IL`):
 
-To can add the flag ``--onscreen_render`` to see real-time rendering.
-To visualize the simulated episodes after it is collected, run
+```bash
+conda activate env_IL
+# Start the server for the policy you will use.
+python gpu_server_act.py
+# or
+python gpu_server_diffusion.py
+```
 
-    python3 visualize_episodes.py --dataset_dir <data save dir> --episode_idx 0
+**What lives here:** model selection and inference parameters.
 
-Note: to visualize data from the mobile-aloha hardware, use the visualize_episodes.py from https://github.com/MarkFzp/mobile-aloha
+Configure these **inside the server script(s)** (or via their CLI flags if provided by your implementation):
 
-To train ACT:
-    
-    # Transfer Cube task
-    python3 imitate_episodes.py --task_name sim_transfer_cube_scripted --ckpt_dir <ckpt dir> --policy_class ACT --kl_weight 10 --chunk_size 100 --hidden_dim 512 --batch_size 8 --dim_feedforward 3200 --num_epochs 2000  --lr 1e-5 --seed 0
+* **Checkpoint path** (e.g., ACT/Diffusion weights saved from training).
+* **ZMQ endpoint** (bind/connect address and port used by the RT side).
+* **Device** (e.g., `cuda:0`), batch size, and any preprocessing settings.
+* **Policy-specific options** (e.g., sequence/chunk length, observation keys, normalization).
 
+> In short: choose the server (`ACT` or `Diffusion`) and set all inference-related options (checkpoint, endpoints, device, etc.) here before starting.
 
-To evaluate the policy, run the same command but add ``--eval``. This loads the best validation checkpoint.
-The success rate should be around 90% for transfer cube, and around 50% for insertion.
-To enable temporal ensembling, add flag ``--temporal_agg``.
-Videos will be saved to ``<ckpt_dir>`` for each rollout.
-You can also add ``--onscreen_render`` to see real-time rendering during evaluation.
+---
 
-For real-world data where things can be harder to model, train for at least 5000 epochs or 3-4 times the length after the loss has plateaued.
-Please refer to [tuning tips](https://docs.google.com/document/d/1FVIZfoALXg_ZkYKaYVh-qOlaXveq5CtvJHXkY25eYhs/edit?usp=sharing) for more info.
+## 6. Start Inference (RT side)
 
-### [ACT tuning tips](https://docs.google.com/document/d/1FVIZfoALXg_ZkYKaYVh-qOlaXveq5CtvJHXkY25eYhs/edit?usp=sharing)
-TL;DR: if your ACT policy is jerky or pauses in the middle of an episode, just train for longer! Success rate and smoothness can improve way after loss plateaus.
+Run in the **Polymetis** environment:
+
+```bash
+conda activate polymetis-local
+python inference.py
+```
+
+```
+```
