@@ -12,7 +12,7 @@ ARM_IP, ARM_PORT = "127.0.0.1", 50051
 GRIP_IP, GRIP_PORT = "127.0.0.1", 50052
 
 # ===== 控制频率 =====
-CONTROL_HZ = 50
+CONTROL_HZ = 200
 DT = 1.0 / CONTROL_HZ
 
 # ===== 策略请求频率（仅限速策略，不影响控制环）=====
