@@ -141,7 +141,7 @@ gripper_subscriber = ZMQSubscriber(ip_address="tcp://127.0.0.1:6004")
 state_publisher = ZMQPublisher(ip_address="tcp://127.0.0.1:6002")
 
 # 初始化摄像头
-cam = CameraReader(dev="/dev/video0", api=cv2.CAP_V4L2, fourcc="MJPG", size=(2560, 720), fps=20)
+cam = CameraReader(dev="/dev/video0", api=cv2.CAP_V4L2, fourcc="MJPG", size=(2560, 720), fps=30)
 cam.start()
 
 # 数据收集参数
@@ -221,7 +221,9 @@ try:
                 frame, ts = cam.get_latest(copy_frame=True)
                 if frame is not None:
                     H, W, C = frame.shape
+                    
                     frame = frame[:, W // 2:, :]
+                    H, W, C = frame.shape
                     frame = cv2.resize(frame, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
 
                     qpos_list.append(copy.deepcopy(qpos))

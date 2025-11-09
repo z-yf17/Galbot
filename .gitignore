@@ -2,3 +2,6 @@
 outputs/
 FACTR_Teleop/src/factr_teleop/outputs/
 dataset
+Behavior Cloning/ckpt
+Behavior Cloning/Dataset
+Behavior Cloning/conda_env.yaml
