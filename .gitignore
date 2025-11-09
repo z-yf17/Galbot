@@ -27,3 +27,14 @@ FACTR_Teleop/
 __pycache__/
 *.py[cod]
 *.egg-info/
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.dist-info/
+build/
+dist/
+.venv/
+venv/
+.env
+FACTR_Teleop/
