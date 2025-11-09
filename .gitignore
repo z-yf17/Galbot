@@ -38,3 +38,5 @@ dist/
 venv/
 .env
 FACTR_Teleop/
+__pycache__/
+*.py[cod]
