@@ -26,7 +26,8 @@ def parse_args():
     ap.add_argument("--port_id_gello",
                     default="/dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FTALIGKF-if00-port0")
     ap.add_argument("--port_id_factr",
-                    default="/dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FTAA08RV-if00-port0")
+                    # default="/dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FTAA08RV-if00-port0")
+                    default="/dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FTAA0992-if00-port0")
     ap.add_argument("--port_id", default=None)
 
     # common
@@ -49,7 +50,7 @@ def parse_args():
     # FACTR control and model
     ap.add_argument("--ctrl_hz", type=float, default=500.0)
     ap.add_argument("--urdf",
-                    default="/home/galbot/zyf/galbot/Tele/src/factr_teleop/factr_teleop/urdf/factr_teleop_franka.urdf")
+                    default="src/factr_teleop/factr_teleop/urdf/factr_teleop_franka.urdf")
     ap.add_argument("--gravity_gain", type=float, default=0.8)
     ap.add_argument("--null_kp", type=float, default=0.1)
     ap.add_argument("--null_kd", type=float, default=0.01)
@@ -185,7 +186,7 @@ GELLO_OFFSETS = (np.pi, np.pi, 2*np.pi, np.pi, np.pi, np.pi, 1.5*np.pi)
 FRANKA_Q_MAX = np.array([2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973])
 FRANKA_Q_MIN = np.array([-2.8973,-1.7628,-2.8973,-3.0718,-2.8973,-0.0175,-2.8973])
 
-FACTR_SIGNS = np.array([1, -1, 1, -1, 1, -1, 1, -1], dtype=float)
+FACTR_SIGNS = np.array([1, 1, 1, -1, 1, -1, 1, -1], dtype=float)
 ARM_LIMIT_MAX = np.array([2.8973, 1.7628, 2.8973, -0.8698, 2.8973, 3.7525, 2.8973]) - 0.1
 ARM_LIMIT_MIN = np.array([-2.8973,-1.7628,-2.8973,-3.0718,-2.8973,-0.0175,-2.8973]) + 0.1
 GRIP_MIN, GRIP_MAX = 0.0, 0.4

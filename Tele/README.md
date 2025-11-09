@@ -2,6 +2,7 @@
 ## Environment Configuration
 First, confirm that your computer has a real-time kernel and polymetis installed.
 
+
 Then configure the environment：
 ```bash
 conda create --name Tele_envs python=3.11
@@ -13,6 +14,11 @@ pip install -e third_party/DynamixelSDK/python
 ```
 
 ## Quick Start
+
+Make sure the right port_id in Tele/scripts/master_unified.py lin 25.
+```bash
+ls /dev/serial/by-id
+```
 
 terminal 1:
 ```bash
@@ -57,9 +63,8 @@ python franka_follower.py --mode factr
 
 terminal 4:
 ```bash
-conda activate tele_envs
+conda activate Tele_envs
 cd tele/scripts
-python master_unified.py --mode gello
 ```
 
 gello:

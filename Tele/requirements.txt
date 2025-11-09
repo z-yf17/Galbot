@@ -13,14 +13,14 @@ h5py==3.11.0
 importlib-resources==6.1.1
 kiwisolver==1.4.5
 matplotlib==3.8.3
-mujoco==3.1.2
-numpy==1.26.4
+mujoco
+numpy
 numpy-quaternion
 omegaconf==2.3.0
 opencv-python==4.9.0.80
 packaging==23.2
 pillow==10.2.0
-pin<3.7.0
+pin==3.7.0
 pip-date==1.0.5
 pure-python-adb
 pybullet
