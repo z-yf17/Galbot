@@ -20,7 +20,7 @@ omegaconf==2.3.0
 opencv-python==4.9.0.80
 packaging==23.2
 pillow==10.2.0
-pin==3.7.0
+pin<3.7.0
 pip-date==1.0.5
 pure-python-adb
 pybullet
