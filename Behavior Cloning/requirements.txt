@@ -12,6 +12,6 @@ einops==0.8.1
 packaging==25.0
 h5py==3.11.0
 ipython==8.12.3
-diffusers==0.33.0
+diffusers==0.11.0
 huggingface_hub==0.13.4
 pyzmq
