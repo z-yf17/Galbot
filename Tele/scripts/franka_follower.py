@@ -22,7 +22,7 @@ def parse_args():
 
     ap.add_argument("--save_dir",   type=str, default="dataset/cup")
     ap.add_argument("--save_freq",  type=float, default=20.0)
-    ap.add_argument("--save_frames",type=int, default=100400)
+    ap.add_argument("--save_frames",type=int, default=350)
 
     ap.add_argument("--no_camera", action="store_true")
     ap.add_argument("--cam_dev",    type=str, default="/dev/video1")
@@ -330,7 +330,7 @@ class ZMQSubscriber:
                 self._value = None
 
 class ZMQPublisher:
-    def __init__(self, ip_address="tcp://127.0.0.1:6003"):
+    def __init__(self, ip_address="tcp://*:6003"):
         context = zmq.Context()
         self._pub_socket = context.socket(zmq.PUB)
         self._pub_socket.bind(ip_address)
@@ -545,11 +545,9 @@ class Control:
             self.rec.maybe_push(self.robot, self.target_q, w_cmd_for_action, frame)
             if self.rec.full():
                 path = self.rec.save_and_next()
-                try: self.grip.goto(GRIPPER_MAX, GRIPPER_SPEED, GRIPPER_FORCE, False)
-                except: pass
-                time.sleep(0.2)
-                self._align_to_pose(START_FACTR if ARGS.mode=="factr" else START_GELLO)
                 print(f"[comm] episode saved: {path}")
+                # 采集完成后，直接结束主循环，不再张开夹爪、sleep、或回零
+                return False
 
         # --- publish state (6002) ---
         if ARGS.mode == "gello" and (t0 - self.last_pub_t) > 0.2:
@@ -580,11 +578,7 @@ class Control:
             while self.loop_once():
                 pass
         finally:
-            try:
-                self._align_to_pose(START_GELLO if ARGS.mode=="gello" else START_FACTR)
-                print("[align] reset to start pose, exiting.")
-            except:
-                pass
+            # 结束时不再自动回到起始位姿，只做资源清理
             try: self.cam.stop()
             except: pass
             try: self.gw.stop()
@@ -597,3 +591,4 @@ class App:
 
 if __name__ == "__main__":
     App().run()
+

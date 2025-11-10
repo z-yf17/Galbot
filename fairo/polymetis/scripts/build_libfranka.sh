@@ -12,6 +12,12 @@ LIBFRANKA_PATH="$GIT_ROOT/polymetis/polymetis/src/clients/franka_panda_client/th
 # Check to make sure directory exists
 [ ! -d $LIBFRANKA_PATH ] && echo "Directory $LIBFRANKA_PATH does not exist" && exit 1
 
+# add
+git -C "$GIT_ROOT" config url."https://github.com/".insteadOf git@github.com:
+git -C "$GIT_ROOT" config url."https://github.com/".insteadOf ssh://git@github.com/
+git -C "$GIT_ROOT" submodule sync --recursive
+# ——add over ——
+
 # Update libfranka version & submodules
 cd $LIBFRANKA_PATH
 if [ ! -z "$LIBFRANKA_VER" ]; then git checkout $LIBFRANKA_VER; fi
